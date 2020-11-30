@@ -1,0 +1,8 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: socks-shop-channel
+  namespace: open-cluster-management
+spec:
+  type: Git
+  pathname: https://github.com/NicolasO/rhacm-demo.git
