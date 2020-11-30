@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end
+  labels:
+    name: front-end
+spec:
+  ports:
+  - name: web
+    port: 80
+    protocol: TCP
+    targetPort: 8079
+  selector:
+    name: front-end
+  sessionAffinity: None
+  type: ClusterIP
