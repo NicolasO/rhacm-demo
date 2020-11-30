@@ -1,0 +1,6 @@
+commonLabels:
+  app: front-end-prod
+bases:
+- github.com/nicolaso/rhacm-demo/apps/front-end?ref=prod
+patchesStrategicMerge:
+- overlays/deployment.yaml
