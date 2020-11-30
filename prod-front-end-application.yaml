@@ -29,7 +29,7 @@ metadata:
     apps.open-cluster-management.io/git-path: apps/front-end/
     apps.open-cluster-management.io/git-branch: prod
 spec:
-  channel: socks-shop/socks-shop-channel
+  channel: open-cluster-management/socks-shop-channel
   placement:
     placementRef:
       kind: PlacementRule
