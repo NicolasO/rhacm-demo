@@ -1,0 +1,65 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: socks-shop-channel
+  namespace: open-cluster-management
+spec:
+  type: Git
+  pathname: https://github.com/NicolasO/rhacm-demo.git
+---
+apiVersion: v1                    
+kind: Namespace
+metadata:
+  name: socks-shop-dev                             
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: development-clusters
+  namespace: socks-shop-dev
+spec:
+  clusterConditions:
+    - type: "ManagedClusterConditionAvailable"
+      status: "True"
+  clusterSelector:
+    matchExpressions: []
+    matchLabels:
+      environment: "dev"
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: socks-shop-subscription
+  namespace: socks-shop-dev
+  labels:
+    app: front-end-dev
+  annotations:
+    apps.open-cluster-management.io/git-path: apps/front-end/
+    apps.open-cluster-management.io/git-branch: dev
+spec:
+  channel: socks-shop/socks-shop-channel
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: development-clusters
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: front-end-dev
+  namespace: socks-shop-dev
+spec:
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+      - front-end-dev
+
+
+
+
